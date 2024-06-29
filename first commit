@@ -1,0 +1,72 @@
+//reduce
+//map
+//filter
+
+struct Calculator {
+//create the reduce function
+
+func reduce(_nums:[Int], using nextPartialResult: (Int, Int) -> Int, startingAt initialResult: Int) -> Int{
+
+var total = initialResult
+for num in _nums {
+  total = nextPartialResult(total,num)
+}
+return total
+}
+//create the filter function
+
+func filter(_nums:[Int],using isIncluded: (Int) -> Bool ) -> [Int]{
+  var filteredNums:[Int] = []
+  for num in _nums {
+    if isIncluded(num) {
+       filteredNums.append(num)
+    }
+  }
+  return filteredNums
+}
+
+//create the map function
+
+func map(_nums:[Int], using transform: (Int) -> Int) -> [Int]{
+  var mappedNums: [Int] = []
+  for num in _nums{
+    mappedNums.append(transform(num))
+  }
+  return mappedNums
+}
+}
+
+// create an instance of calculator
+
+let test = Calculator()
+
+// define the closures
+
+let isIncluded = {(num: Int) -> Bool in
+return num != 0}
+
+
+let addition = {(a: Int, b: Int) -> Int in
+return a + b
+}
+
+//create array of numbers to test
+
+let numTest = [1, 2, 3, 4]
+
+//call first test .reduce
+
+let sum = test.reduce(_nums: numTest, using: addition, startingAt: 0)
+print(sum)
+
+//call second test . filter
+
+let myArray = [0, 1, 2, 0, 5]
+let myFilteredArray = test.filter(_nums: myArray, using: isIncluded)
+print(myFilteredArray)
+
+//call third test .map
+
+let testArray = [0, 1, 5, 3, 4]
+let testMap = test.map(_nums: testArray) {$0 + 20}
+print(testMap)
